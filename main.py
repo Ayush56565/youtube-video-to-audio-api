@@ -16,7 +16,12 @@ limiter = Limiter(key_func=get_remote_address)
 app = FastAPI()
 app.state.limiter = limiter
 
+cookies_content = os.getenv("YT_COOKIES")
+if cookies_content:
+    with open("cookies.txt", "w", encoding="utf-8") as f:
+        f.write(cookies_content)
 @app.exception_handler(RateLimitExceeded)
+
 async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
     return JSONResponse(
         status_code=429,
@@ -34,6 +39,7 @@ def _download_audio_sync(url: str):
         'format': 'bestaudio/best',
         'noplaylist': False,
         'outtmpl': output_template,
+        'cookiefile': 'cookies.txt',
         'postprocessors': [
             {
                 'key': 'FFmpegExtractAudio',
