@@ -4,6 +4,7 @@ import asyncio
 import time
 import zipfile
 from fastapi import FastAPI, Query, HTTPException, BackgroundTasks, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 import yt_dlp
 from slowapi import Limiter
@@ -15,7 +16,13 @@ limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI()
 app.state.limiter = limiter
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["https://yourfrontend.com"] for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 cookies_content = os.getenv("YT_COOKIES")
 if cookies_content:
     with open("cookies.txt", "w", encoding="utf-8") as f:
