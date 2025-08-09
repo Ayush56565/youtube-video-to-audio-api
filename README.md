@@ -74,20 +74,6 @@ curl -X GET "http://127.0.0.1:8000/download-audio?url=https://www.youtube.com/wa
 
 ---
 
-## 🛠 Deployment on Render
-
-1. **Push your code to GitHub**.
-2. **Create a new Web Service** on Render.
-3. **Select your repository**.
-4. **Set the Start Command**:
-```bash
-uvicorn main:app --host 0.0.0.0 --port $PORT
-```
-5. **Add FFmpeg build step** in `render.yaml` (optional).
-6. Deploy and start using your API.
-
----
-
 ## 👀 Example Workflow
 ```mermaid
 sequenceDiagram
